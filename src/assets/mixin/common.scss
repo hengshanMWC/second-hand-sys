@@ -1,0 +1,8 @@
+@mixin back($src, $b: true) {
+  background: url($src) no-repeat center;
+  background-size: 100% 100%;
+  @if($b) {
+    height: 100vh;
+    width: 100vw;
+  }
+}

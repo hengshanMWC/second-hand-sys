@@ -1,0 +1,27 @@
+.el-breadcrumb__inner,.b {
+  font-weight: 600 !important;
+}
+/* 文本 两端对齐 */
+.align {
+  text-align: justify;
+  text-align-last: justify;
+}
+
+//超出隐藏
+.cell,.ellipsis{
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+.lists_ellipsis {
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  display: -webkit-box !important;
+  text-overflow: ellipsis;
+  overflow:hidden;
+}
+
+.pre {
+  white-space: pre-line;
+  word-break: break-all;//换行
+}
