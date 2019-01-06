@@ -3,6 +3,17 @@
     .breadcrumb {
       margin: 15px;
     }
+    .avatar_box{
+      float:right;
+      margin: 10px 25px 10px 0;
+      text-align: center;
+      .avatar{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border:thin solid #7d94aa;
+      }
+    }
   }
 </style>
 
@@ -28,10 +39,17 @@
         el-menu-item(index="sys") 管理员列表
       el-menu-item(index="banner") banner图
       el-menu-item(index="follow") 问题反馈
+      el-dropdown.avatar_box(@command="OperationUser")
+        img.avatar(:src="tx")
+        el-dropdown-menu(slot="dropdown")
+          el-dropdown-item(command="toUserInfo" :title="name") 详情
+          el-dropdown-item(command="quit") 退出
     .min_box
       el-breadcrumb(separator-class="el-icon-arrow-right")
         el-breadcrumb-item(v-for="(val, i) in breadcrumbs" :key="i") {{val}}
-    router-view
+    router-view.block_box
+    <!--router-view(name="a")-->
+    <!--router-view(name="b")-->
 </template>
 
 <script>
@@ -41,20 +59,39 @@
     name: "layout",
     data() {
       return {
-        breadcrumbs: []
+        breadcrumbs: [],
       }
     },
     computed: {
-      ...mapState([]),
+      ...mapState(['userInfo']),
       ...mapGetters([]),
       currentActive(){
         return this.$route.name
       },
+      tx(){
+        return this.userInfo.u_avatar || 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546710354901&di=6c92107f9216037d256d716893d02608&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3Db1ae535a133853438c9a8f25a6239c48%2F29381f30e924b8992d85d90e6d061d950a7bf64f.jpg'
+      },
+      name(){
+        return this.userInfo.u_name || this.userInfo.u_account
+      }
     },
     methods: {
-      ...mapMutations([]),
+      ...mapMutations(['setUserInfo']),
       handleSelect(key, keyPath) {
         this.$router.push({ name: key });
+      },
+      OperationUser(command) {
+        this[command]();
+      },
+      toUserInfo(){
+        this.$router.push('/userDetail?id=' + this.userInfo._id)
+      },
+      quit(){
+        this.$api(this.$SERVER.GET_QUIT)
+          .then(data => {
+            this.$router.push('/login')
+            this.setUserInfo({});
+          })
       }
     },
     created() {
@@ -64,15 +101,7 @@
     watch: {
       $route: {
         handler(to) {
-          let { title, parentTitle } = to.meta
-          this.breadcrumbs = [];
-          let breadcrumbs = this.breadcrumbs;
-          if(title){
-            breadcrumbs.push(title)
-            if(parentTitle){
-              breadcrumbs.unshift(parentTitle);
-            }
-          }
+          this.breadcrumbs = to.meta.position
         },
         immediate: true
       }

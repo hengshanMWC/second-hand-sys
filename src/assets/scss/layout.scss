@@ -1,38 +1,23 @@
 .min_box {
   margin: 15px;
 }
+.box_bottom {
+  margin-bottom: 10px;
+}
 .wh100 {
   width: 100%;
   height: 100%;
 
 }
-//布局
 .block_box {
   @extend .block;
-  width:90%;
-  margin:10px auto;
+  width: 85%;
+  margin: 20px auto;
 }
 .block {
   display: block;
 }
 .inB {
   display: inline-block;
-}
-.flex_a_c {
-  display: flex;
-  align-items: center;
-}
-.flex_j_c {
-  display: flex;
-  justify-content: center;
-}
-.flex_c {
-  justify-content: center;
-  @extend .flex_a_c;
-}
-.flex_bc {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 

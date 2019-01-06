@@ -12,15 +12,15 @@
   export default {
     name: 'App',
     methods: {
-      findUser(){
-        this.$api(this.$SERVER.GET_USERLIST)
-          .then( data => {
-            console.log(data)
-          })
+      ...mapMutations(['setUserInfo']),
+      getUserInfo(){
+        this.$api(this.$SERVER.GET_ISLOGIN)
+          .then( data => data.state && this.$api(this.$SERVER.GET_CURRENTUSERINFO))
+          .then( data => this.setUserInfo(data.data))
       }
     },
     created(){
-      // this.findUser();
+      // this.getUserInfo();
     }
   }
 </script>

@@ -59,15 +59,21 @@
       ...mapGetters([]),
     },
     methods: {
-      ...mapMutations([]),
+      ...mapMutations(['setUserInfo']),
       login(){
         this.$api.post(this.$SERVER.POST_LOGIN,this.apiData)
           .then( data => {
-            this.$api(this.$SERVER.GET_ISLOGIN)
-              .then( res => {
-                console.log(res)
-              })
-            console.log(data)
+            if(!data.state) {
+              this.$message.error(data.mes);
+              return
+            }
+            if(data.data.power) {
+              this.$message.success('登录成功');
+              this.setUserInfo(data.data)
+              this.$router.push('/')
+            } else {
+              this.$message.error('普通用户不能登录！');
+            }
           })
       },
       startTitle(text){

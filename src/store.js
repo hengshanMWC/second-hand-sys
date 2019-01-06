@@ -8,7 +8,9 @@ export default new Vuex.Store({
     userInfo: {}
   },
   mutations: {
-
+    setUserInfo(state, payload){
+      state.userInfo = payload;
+    }
   },
   actions: {
 
