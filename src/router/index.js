@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store'
 import api from '@/utils/api'
-import SERVER from '@/utils/api/config'
+import SERVER  from '@/utils/api/config'
 import beforeEach from '@/router/beforeEach'
 Vue.use(Router)
 const router =  new Router({
