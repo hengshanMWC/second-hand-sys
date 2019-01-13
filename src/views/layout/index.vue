@@ -40,7 +40,7 @@
       el-menu-item(index="banner") banner图
       el-menu-item(index="follow") 问题反馈
       el-dropdown.avatar_box(@command="OperationUser")
-        img.avatar(:src="tx")
+        img.avatar(:src="userInfo.u_avatar")
         el-dropdown-menu(slot="dropdown")
           el-dropdown-item(command="toUserInfo" :title="name") 详情
           el-dropdown-item(command="quit") 退出
@@ -67,9 +67,6 @@
       ...mapGetters([]),
       currentActive(){
         return this.$route.name
-      },
-      tx(){
-        return this.userInfo.u_avatar || 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1546710354901&di=6c92107f9216037d256d716893d02608&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3Db1ae535a133853438c9a8f25a6239c48%2F29381f30e924b8992d85d90e6d061d950a7bf64f.jpg'
       },
       name(){
         return this.userInfo.u_name || this.userInfo.u_account

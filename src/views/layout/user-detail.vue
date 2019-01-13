@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
   .user-detail {
+  
   }
 </style>
 
@@ -27,15 +28,26 @@
       el-col(:span="12")
         el-form-item(label="微信" prop="u_wx")
           el-input(v-model="apiData.u_wx")
-      el-col(:span="12")
-        el-form-item(label="头像" prop="u_avatar")
-          el-input(v-model="apiData.u_avatar")
+      <!--el-col(:span="12")-->
+        <!--el-form-item(label="头像" prop="u_avatar")-->
+          <!--el-input(v-model="apiData.u_avatar")-->
       el-col(:span="12")
         el-form-item(label="年龄" prop="u_age")
           el-input(v-model="apiData.u_age")
+      el-col(:span="6")
+        el-form-item(label="省份" prop="u_province")
+          province(:province="apiData.u_province" :provinces="provinceList" @change="setCityList")
+      el-col(:span="6")
+        el-form-item(label="城市" prop="u_city")
+          el-select(v-model="apiData.u_city")
+            el-option(
+            v-for="item in cityList"
+            :key="item"
+            :label="item"
+            :value="item")
       el-col(:span="12")
         el-form-item(label="学校" prop="u_school")
-          el-input(v-model="apiData.u_school")
+          school(@list="getSchoolList" :school="apiData.u_school" :schools="schoolList" @change="setSchool")
       el-col(:span="24")
         el-form-item(label="现居地址" prop="u_address")
           el-input(v-model="apiData.u_address")
@@ -45,8 +57,8 @@
       el-col(:span="24")
         el-form-item(label="是否认证" prop="u_static")
           el-radio-group(v-model="apiData.u_static")
-            el-radio(:label="1") 已经认证
-            el-radio(:label="0") 尚未认证
+            el-radio(:label="true") 已经认证
+            el-radio(:label="false") 尚未认证
       el-col(:span="24")
         el-form-item(label="性别" prop="u_sex")
           el-radio-group(v-model="apiData.u_sex")
@@ -56,12 +68,14 @@
         el-form-item
           el-button(type="primary" @click="submitForm('ruleForm')") 保存
 </template>
-
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
-
+  import address from '@/utils/mixin/address'
+  import province from '@/components/province';
+  import school from '@/components/school';
   export default {
     name: "userDetail",
+    mixins: [address],
     data() {
       return {
         id: '',
@@ -79,8 +93,11 @@
           u_school: '',
           u_address: '',
           u_introduce: '',
-          u_static: 0,
+          u_province: '',
+          u_city: '',
+          u_static: false,
         },
+        schoolList: [],
         rules: {
           u_account: [
             { required: true, message: '请输入账号', trigger: 'blur' },
@@ -106,6 +123,7 @@
           let info = data.data;
           info.u_password = '';
           this.apiData = info
+          this.getCityList()
         })
       },
       submitForm(formName) {
@@ -124,13 +142,15 @@
       thenSubmit(str){
         this.$message.success(str + '成功');
         this.$router.push('/user')
+      },
+      getSchoolList(data){
+        this.schoolList = data;
+      },
+      setSchool(val){
+        this.apiData.u_school = val;
       }
     },
     created() {
-    
-    },
-    mounted() {
-
     },
     watch: {
       $route: {
@@ -147,8 +167,13 @@
         },
         immediate: true
       }
+    },
+    components: {
+      province,
+      school
     }
   }
 </script>
+
 
 
