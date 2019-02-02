@@ -26,58 +26,56 @@ const router =  new Router({
         },
         /**
          * 商品管理
-         * trappings:服饰
-         * daily_supplies:日常用品
-         * beautiful：美容护肤品
-         * electronic 电子商品
-         * */
+         */
         {
-          path: 'trappings',
-          name: 'trappings',
+          path: 'type',
+          name: 'type',
           meta: {
             position: [
               '商品管理',
-              '服饰'
+              '分类列表'
             ],
-            title: '服饰',
+            title: '分类列表',
           },
-          component: () => import('@/views/layout/trappings')
+          component: () => import('@/views/layout/type')
         },
         {
-          path: 'daily_supplies',
-          name: 'daily_supplies',
+          path: 'typeDetail',
+          name: 'typeDetail',
           meta: {
             position: [
               '商品管理',
-              '日常用品'
+              '分类列表',
+              '分类配置'
             ],
-            title: '日常用品',
+            title: '分类配置',
           },
-          component: () => import('@/views/layout/daily_supplies')
+          component: () => import('@/views/layout/type-detail')
         },
         {
-          path: 'beautiful',
-          name: 'beautiful',
+          path: 'commodity',
+          name: 'commodity',
           meta: {
             position: [
               '商品管理',
-              '美容护肤品'
+              '商品列表'
             ],
-            title: '美容护肤品',
+            title: '商品列表',
           },
-          component: () => import('@/views/layout/beautiful')
+          component: () => import('@/views/layout/commodity')
         },
         {
-          path: 'electronic',
-          name: 'electronic',
+          path: 'commodityDetail',
+          name: 'commodityDetail',
           meta: {
             position: [
               '商品管理',
-              '电子商品'
+              '商品列表',
+              '商品配置',
             ],
-            title: '电子商品',
+            title: '商品配置',
           },
-          component: () => import('@/views/layout/electronic')
+          component: () => import('@/views/layout/commodity-detail')
         },
         //banner
         {
@@ -135,6 +133,20 @@ const router =  new Router({
             title: '管理员列表',
           },
           component: () => import('@/views/layout/sys')
+        },
+        //用户详情
+        {
+          path: 'sysDetail',
+          name: 'sysDetail',
+          meta: {
+            position: [
+              '人员管理',
+              '管理员列表',
+              '管理员详情'
+            ],
+            title: '用户详情',
+          },
+          component: () => import('@/views/layout/sys-detail'),
         },
         //问题反馈
         {

@@ -29,7 +29,7 @@
 <template lang="pug">
   .home
     el-upload.avatar-uploader(
-    :action="$SERVER.URL + $SERVER.PATH + $SERVER.GET_UPIMG"
+    :action="$SERVER.URL + $SERVER.PATH + $SERVER.GET_UPFLIE"
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload")
@@ -50,12 +50,13 @@
     methods: {
       handleAvatarSuccess(res, file) {
         console.log(res,file)
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.imageUrl = this.$SERVER.FILEURL + res.data.url
       },
       beforeAvatarUpload(file) {
-        console.log(file)
-        const isJPG = file.type === 'image/jpeg';
+        const isJPG = file.type.indexOf('image') !== -1;
         const isLt2M = file.size / 1024 / 1024 < 2;
+        console.log(file,isJPG , isLt2M)
+
         if (file.type.indexOf('image') === -1) {
           this.$message.error('只能上传图片');
         }

@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-  .user-detail {
+  .sys-detail {
     .avatar-uploader .el-upload {
       border: 1px dashed #d9d9d9;
       border-radius: 6px;
@@ -27,7 +27,7 @@
 </style>
 
 <template lang="pug">
-  .user-detail
+  .sys-detail
     el-form.demo-ruleForm.box_bottom(:model="apiData" :rules="rules" ref="ruleForm" label-width="100px")
       el-col(:span="12")
         el-form-item(label="账号" prop="u_account")
@@ -100,7 +100,7 @@
   import province from '@/components/province';
   import school from '@/components/school';
   export default {
-    name: "userDetail",
+    name: "sysDetail",
     mixins: [address],
     data() {
       return {
@@ -175,15 +175,15 @@
       },
       upUser() {
         this.$api.post(this.$SERVER.POST_UPUSERINFO,{...this.apiData, id: this.id})
-          .then( data => this.thenSubmit('更新'))
+          .then( data => data.state ? this.thenSubmit('编辑') : this.$message.error(data.mes))
       },
       addUser() {
-        this.$api.post(this.$SERVER.POST_ADDUSER,this.apiData)
-          .then( data => this.thenSubmit('新增'))
+        this.$api.post(this.$SERVER.POST_ADDSYS,this.apiData)
+          .then( data => data.state ? this.thenSubmit('新增') : this.$message.error(data.mes))
       },
       thenSubmit(str){
         this.$message.success(str + '成功');
-        this.$router.push('/user')
+        this.$router.push('/sys')
       },
       getSchoolList(data){
         this.schoolList = data;

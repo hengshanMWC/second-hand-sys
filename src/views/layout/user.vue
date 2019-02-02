@@ -76,6 +76,7 @@
           u_tel: '',
           u_address: '',
           u_static: '',
+          u_sex: '',
         },
         delApiData: [],
         delId: '',

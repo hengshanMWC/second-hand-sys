@@ -29,10 +29,8 @@
       el-menu-item(index="home") 首页
       el-submenu(index="商品管理")
         template(slot="title") 商品管理
-        el-menu-item(index="trappings") 服饰商品
-        el-menu-item(index="daily_supplies") 日常用品
-        el-menu-item(index="beautiful") 美容护肤品
-        el-menu-item(index="electronic") 电子商品
+        el-menu-item(index="type") 分类配置
+        el-menu-item(index="commodity") 商品列表
       el-submenu(index="人员管理")
         template(slot="title") 人员管理
         el-menu-item(index="user") 用户管理
@@ -40,7 +38,7 @@
       el-menu-item(index="banner") banner图
       el-menu-item(index="follow") 问题反馈
       el-dropdown.avatar_box(@command="OperationUser")
-        img.avatar(:src="userInfo.u_avatar")
+        img.avatar(v-if="userInfo.u_avatar" :src="$SERVER.FILEURL + userInfo.u_avatar")
         el-dropdown-menu(slot="dropdown")
           el-dropdown-item(command="toUserInfo" :title="name") 详情
           el-dropdown-item(command="quit") 退出
@@ -81,7 +79,7 @@
         this[command]();
       },
       toUserInfo(){
-        this.$router.push('/userDetail?id=' + this.userInfo._id)
+        this.$router.push('/sysDetail?id=' + this.userInfo._id)
       },
       quit(){
         this.$api(this.$SERVER.GET_QUIT)

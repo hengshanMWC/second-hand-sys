@@ -1,37 +1,29 @@
 <style lang="scss" scoped>
-  .sys {
-  
+  .commodity {
   }
 </style>
 
 <template lang="pug">
-  .sys
+  .commodity
     .box_bottom.f_sb
       div
         el-button(type="primary" @click="toAddUser" plain) 新增
-        el-button(type="primary" @click="getUserList") 搜索
+        el-button(type="primary" @click="getList") 搜索
         el-button(type="primary" @click="reset" round) 重置
-      el-button(type="danger" @click="dels" plain) 批量删除
-    .box_bottom
-      el-input.box_ss1(v-model="getApiData.u_account" placeholder="账号")
-      el-input.box_ss(v-model="getApiData.u_name" placeholder="姓名")
-      el-input.box_ss(v-model="getApiData.u_tel" placeholder="手机")
-      el-input.box_ss(v-model="getApiData.u_address" placeholder="现居地址")
-      el-select.box_ss(v-model="getApiData.u_sex" clearable placeholder="所有性别")
-        el-option(label="所有性别" value="")
-        el-option(label="男" :value="1")
-        el-option(label="女" :value="0")
+        el-button(type="danger" @click="dels" plain) 批量删除
     el-table.box_bottom(ref="multipleTable" style="width: 100%" height="525" :data="dataList.list" @selection-change="handleSelectionChange")
       el-table-column(type="selection" width="40" fixed)
-      el-table-column(prop="u_account" label="账号" width="150")
-      el-table-column(prop="u_name" label="姓名" width="150")
-      el-table-column(prop="u_tel" label="手机" width="115")
-      el-table-column(prop="u_sex" label="性别" width="55")
-      el-table-column(prop="u_address" label="现居地址" width="250")
+      el-table-column(prop="c_title" label="商品名称" width="150")
+      el-table-column(prop="c_type" label="分类" width="150")
+      el-table-column(prop="c_type2" label="子分类" width="150")
+      el-table-column(prop="c_price" label="价格" width="160")
+      el-table-column(prop="c_num" label="数量" width="50")
+      el-table-column(prop="c_state" label="状态" width="50")
       el-table-column(prop="up_date" label="更新日期" width="170")
       el-table-column(prop="create_date" label="创建日期" width="170")
       el-table-column(label="操作" width="155" fixed="right")
         template(slot-scope="scope")
+          el-button(@click="upState(scope.row._id, scope.row.c_state)" type="primary" size="small") {{scope.row.c_state | getStateText}}
           el-button(@click="edit(scope.row._id)" type="primary" size="small") 编辑
           el-button(@click="delAlert(scope.row._id)" type="danger" size="small") 删除
     el-pagination.box_bottom(
@@ -55,8 +47,9 @@
 
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
+
   export default {
-    name: "sys",
+    name: "commodity",
     data() {
       return {
         dataList: {
@@ -66,10 +59,6 @@
         getApiData:{
           pageSize: 10,
           pageIndex: 1,
-          u_account: '',
-          u_name: '',
-          u_tel: '',
-          u_address: '',
         },
         delApiData: [],
         delId: '',
@@ -82,8 +71,8 @@
     },
     methods: {
       ...mapMutations([]),
-      getUserList(){
-        this.$api(this.$SERVER.GET_SYSFIST, {
+      getList(){
+        this.$api(this.$SERVER.GET_COMMODITYLIST, {
           params:this.getApiData
         })
           .then(data => this.dataList = data.data)
@@ -92,7 +81,7 @@
         Object.keys(this.getApiData).forEach( val => {
           if(val !== 'pageSize' && val!== 'pageIndex') this.getApiData[val] = '';
         })
-        this.getUserList();
+        this.getList();
       },
       toggleSelection(rows) {
         if (rows) {
@@ -108,17 +97,17 @@
       },
       handleSizeChange(val) {
         this.getApiData.pageSize = val ;
-        this.getUserList();
+        this.getList();
       },
       handleCurrentChange(val) {
         this.getApiData.pageIndex = val - 1;
-        this.getUserList();
+        this.getList();
       },
       toAddUser(){
-        this.$router.push('/sysDetail')
+        this.$router.push('/commodityDetail')
       },
       edit(id){
-        this.$router.push('/sysDetail?id=' + id)
+        this.$router.push('/commodityDetail?id=' + id)
       },
       delAlert(id){
         this.delId = id;
@@ -129,11 +118,21 @@
         this.bAlert = false
       },
       del(){
-        this.$api(`${this.$SERVER.GET_DELUSER}?id=${this.delId}`)
+        this.$api(`${this.$SERVER.GET_COMMODITYDEL}?id=${this.delId}`)
           .then( data => {
             this.$message.success('删除成功')
             this.bAlert = false;
-            this.getUserList();
+            this.getList();
+          })
+      },
+      upState(c_id, c_state){
+        this.$api.post(this.$SERVER.POST_COMMODITYUPINFO, {
+          c_id,
+          c_state: c_state == 1 ? 2 : 1
+        })
+          .then( res => {
+            res.state ? this.$message.success('操作成功') :  this.$message.error(res.mes)
+            this.getList();
           })
       },
       dels() {
@@ -141,15 +140,14 @@
       }
     },
     created() {
-      this.getUserList();
+      this.getList();
     },
-    mounted() {
-
+    filters: {
+      getStateText(state){
+        return state == 2 ? '上架' : '下架'
+      }
     }
   }
 </script>
-
-
-
 
 
