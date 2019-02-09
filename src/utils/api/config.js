@@ -1,6 +1,8 @@
 export default {
-  URL: 'http://mwc.ac.cn:3000/',
-  FILEURL: 'http://mwc.ac.cn:3000/second-hand',
+  // URL: 'http://mwc.ac.cn:3000/',
+  // FILEURL: 'http://mwc.ac.cn:3000/second-hand',
+  URL: 'http://localhost:3000/',
+  FILEURL: 'http://localhost:3000/second-hand',
   // URL: '139.199.88.199:4444',
   PATH: 'second-hand/api/',
   GET_PROVINCELIST: 'common/provinceList',//省份
@@ -33,4 +35,16 @@ export default {
   GET_COMMODITYINFO: 'commodity/info',//商品详情
   POST_COMMODITYUPINFO: 'commodity/upInfo',//商品更新
   GET_COMMODITYDEL: 'commodity/del',//商品删除
+  //订单管理
+  GET_ORDERLIST: 'order/list',//order列表
+  POST_ORDERADD: 'order/add',//添加order
+  GET_ORDERINFO: 'order/info',//order详情
+  POST_ORDERUPINFO: 'order/upInfo',//order更新
+  GET_ORDERDEL: 'order/del',//order删除
+  //banner
+  GET_BANNERLIST: 'banner/list',//banner列表
+  POST_BANNERADD: 'banner/add',//添加banner
+  GET_BANNERINFO: 'banner/info',//banner详情
+  POST_BANNERUPINFO: 'banner/upInfo',//banner更新
+  GET_BANNERDEL: 'banner/del',//banner删除
 }

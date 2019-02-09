@@ -77,6 +77,18 @@ const router =  new Router({
           },
           component: () => import('@/views/layout/commodity-detail')
         },
+        {
+          path: 'order',
+          name: 'order',
+          meta: {
+            position: [
+              '商品管理',
+              '订单列表'
+            ],
+            title: '订单列表',
+          },
+          component: () => import('@/views/layout/order')
+        },
         //banner
         {
           path: 'banner',
@@ -88,6 +100,18 @@ const router =  new Router({
             title: 'banner图',
           },
           component: () => import('@/views/layout/banner')
+        },
+        {
+          path: 'bannerDetail',
+          name: 'bannerDetail',
+          meta: {
+            position: [
+              'banner图',
+              'banner详情',
+            ],
+            title: 'bannerDetail图',
+          },
+          component: () => import('@/views/layout/banner-detail')
         },
         //用户管理
         {

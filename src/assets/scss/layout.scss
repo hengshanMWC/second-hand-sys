@@ -11,20 +11,28 @@
 .block {
   display: block;
 }
-.box_ss {
-  width: 200px;
+.ml15 {
   margin-left: 15px;
 }
 .box_ss1 {
   width: 200px;
 }
+.box_ss {
+  @extend .box_ss1;
+  @extend .ml15;
+}
+.w {
+  width: 150px;
+}
+.wl {
+  @extend .w;
+  @extend .ml15;
+}
+
 .block_box {
   @extend .block;
   width: 85%;
   margin: 20px auto;
-}
-.block {
-  display: block;
 }
 .inB {
   display: inline-block;

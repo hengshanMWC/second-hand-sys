@@ -8,8 +8,8 @@
   .sys
     .box_bottom.f_sb
       div
-        el-button(type="primary" @click="toAddUser" plain) 新增
-        el-button(type="primary" @click="getUserList") 搜索
+        el-button(type="primary" @click="toAdd" plain) 新增
+        el-button(type="primary" @click="search") 搜索
         el-button(type="primary" @click="reset" round) 重置
       el-button(type="danger" @click="dels" plain) 批量删除
     .box_bottom
@@ -55,25 +55,23 @@
 
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
+  import mPage from '@/utils/mixin/page'
   export default {
     name: "sys",
+    mixins: [mPage],
     data() {
       return {
-        dataList: {
-          count: 1,
-          list: []
-        },
         getApiData:{
-          pageSize: 10,
-          pageIndex: 1,
           u_account: '',
           u_name: '',
           u_tel: '',
           u_address: '',
         },
-        delApiData: [],
-        delId: '',
-        bAlert: false,
+        api: {
+          list: 'GET_SYSFIST',
+          del: 'GET_DELUSER'
+        },
+        to: 'sysDetail',
       }
     },
     computed: {
@@ -82,66 +80,6 @@
     },
     methods: {
       ...mapMutations([]),
-      getUserList(){
-        this.$api(this.$SERVER.GET_SYSFIST, {
-          params:this.getApiData
-        })
-          .then(data => this.dataList = data.data)
-      },
-      reset(){
-        Object.keys(this.getApiData).forEach( val => {
-          if(val !== 'pageSize' && val!== 'pageIndex') this.getApiData[val] = '';
-        })
-        this.getUserList();
-      },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
-      handleSelectionChange(val) {
-        this.delApiData = val.map( val => val._id)
-      },
-      handleSizeChange(val) {
-        this.getApiData.pageSize = val ;
-        this.getUserList();
-      },
-      handleCurrentChange(val) {
-        this.getApiData.pageIndex = val - 1;
-        this.getUserList();
-      },
-      toAddUser(){
-        this.$router.push('/sysDetail')
-      },
-      edit(id){
-        this.$router.push('/sysDetail?id=' + id)
-      },
-      delAlert(id){
-        this.delId = id;
-        this.bAlert = true
-      },
-      closeDelAlert(){
-        this.delId = '';
-        this.bAlert = false
-      },
-      del(){
-        this.$api(`${this.$SERVER.GET_DELUSER}?id=${this.delId}`)
-          .then( data => {
-            this.$message.success('删除成功')
-            this.bAlert = false;
-            this.getUserList();
-          })
-      },
-      dels() {
-        console.log(this.delApiData)
-      }
-    },
-    created() {
-      this.getUserList();
     },
     mounted() {
 

@@ -18,9 +18,6 @@
     .box_bottom {
       display: block;
     }
-    .input {
-      width: 200px
-    }
     .text {
       width: 400px
     }
@@ -30,10 +27,16 @@
 <template lang="pug">
   .typeDetail
     .box_bottom
-      el-input.input.box_bottom(
-      placeholder="请输入分类名称"
-      v-model="apiData.t_name"
-      clearable)
+      .box_bottom
+        el-input.w(
+        placeholder="请输入分类名称"
+        v-model="apiData.t_name"
+        clearable)
+        el-input.wl(
+        type="number"
+        placeholder="请输入权重"
+        v-model="apiData.t_weight"
+        clearable)
       el-input.text.box_bottom(
       type="textarea"
       :rows="2"
@@ -60,16 +63,25 @@
 
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
-
+  import mDetail from '@/utils/mixin/detail'
   export default {
     name: "typeDetail",
+    mixins: [mDetail],
     data() {
       return {
-        id: '',
+        api: {
+          info: 'GET_TYPEINFO',
+          upInfo: 'POST_TYPEUPINFO',
+          add: 'POST_TYPEADD',
+        },
+        success: {
+          url: 'type'
+        },
         apiData: {
           t_name: '',
           t_text: '',
           t_types: [],
+          t_weight: 0,
         },
         inputVisible: false,
         inputValue: '',
@@ -81,14 +93,6 @@
     },
     methods: {
       ...mapMutations([]),
-      getInfo(){
-        this.$api(this.$SERVER.GET_TYPEINFO,{
-          params: {id : this.id}
-        }).then( data => {
-          let info = data.data;
-          this.apiData = info
-        })
-      },
       handleClose(tag) {
         this.apiData.t_types.splice(this.apiData.t_types.indexOf(tag), 1);
       },
@@ -108,37 +112,8 @@
         this.inputVisible = false;
         this.inputValue = '';
       },
-      submit(){
-        this.id ? this.upInfo() : this.addInfo()
-      },
-      upInfo(){
-        this.$api.post(this.$SERVER.POST_TYPEUPINFO,this.apiData)
-          .then(data => data.state ? this.thenSubmit('编辑') : this.$message.error(data.mes))
-      },
-      addInfo(){
-        this.$api.post(this.$SERVER.POST_TYPEADD, this.apiData)
-          .then( data => data.state ? this.thenSubmit('新增') : this.$message.error(data.mes))
-      },
-      thenSubmit(str){
-        this.$message.success(str + '成功');
-        this.$router.push('/type')
-      },
+      
     },
-    created() {
-
-    },
-    watch: {
-      $route: {
-        handler(to) {
-          this.id = to.query.id;
-          this.id && this.getInfo()
-        },
-        immediate: true
-      }
-    },
-    mounted() {
-
-    }
   }
 </script>
 

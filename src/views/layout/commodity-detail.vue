@@ -48,6 +48,7 @@
           el-form-item.inB(prop="c_state")
             el-radio(v-model="apiData.c_state" :label="1") 上架
             el-radio(v-model="apiData.c_state" :label="2") 下架
+        quill-editor(v-model="apiData.c_detail")
       el-col(:span="24")
         el-form-item
           el-button(type="primary" @click="submitForm('ruleForm')") 保存
@@ -56,15 +57,15 @@
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
   import { newJson } from '@/utils/js/index'
+  import mType from '@/utils/mixin/view/type'
   export default {
     name: "commodityDetail",
+    mixins: [mType],
     data() {
       return {
         dialogVisible: false,
         dialogImageUrl: '',
         id: '',
-        c_type: [],
-        c_type2: [],
         apiData: {
           u_id: '',
           c_title: '',
@@ -75,6 +76,7 @@
           c_address: '',
           c_num: 1,
           c_state: 1,
+          c_detail: '',
         },
         schoolList: [],
         rules: {
@@ -99,7 +101,7 @@
       ...mapState(['userInfo']),
       ...mapGetters([]),
       filePath() {
-        return this.apiData.c_images.map( file => ({url: this.$SERVER.FILEURL + file}))
+        return this.apiData.c_images ? this.apiData.c_images.map( file => ({url: this.$SERVER.FILEURL + file})) : []
       }
     },
     methods: {
@@ -161,25 +163,7 @@
         this.$message.success(str + '成功');
         this.$router.push('/commodity')
       },
-      getTypeList(){
-        this.$api(this.$SERVER.GET_TYPELIST)
-          .then( res => {
-            this.c_type = res.data.list
-            this.getType2()
-          })
-      },
-      getType2(){
-        let c_type = this.apiData.c_type;
-        console.log(c_type)
-        if(c_type === '') {
-          this.c_type2 = [];
-          return
-        }
-        this.c_type2 = this.c_type.find( obj => obj.t_name == c_type).t_types
-      }
-    },
-    created() {
-      this.getTypeList();
+      
     },
     watch: {
       $route: {

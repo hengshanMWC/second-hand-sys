@@ -14,6 +14,7 @@
       el-table-column(type="selection" width="40" fixed)
       el-table-column(prop="t_name" label="分类名称" width="180")
       el-table-column(prop="t_types" label="二级个数" width="100")
+      el-table-column(prop="t_weight" label="权重" width="60")
       el-table-column(prop="up_date" label="更新日期")
       el-table-column(prop="create_date" label="创建日期" )
       el-table-column(label="操作" width="155" fixed="right")
@@ -41,21 +42,17 @@
 
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
+  import mPage from '@/utils/mixin/page'
   export default {
-    name: "sys",
+    name: "type",
+    mixins: [mPage],
     data() {
       return {
-        dataList: {
-          count: 1,
-          list: []
+        api: {
+          list : 'GET_TYPELIST',
+          del: 'GET_TYPEDEL',
         },
-        getApiData:{
-          pageSize: 10,
-          pageIndex: 1,
-        },
-        delApiData: [],
-        delId: '',
-        bAlert: false,
+        to: 'typeDetail'
       }
     },
     computed: {
@@ -64,51 +61,7 @@
     },
     methods: {
       ...mapMutations([]),
-      getList(){
-        this.$api(this.$SERVER.GET_TYPELIST, {
-          params:this.getApiData
-        })
-          .then(data => this.dataList = data.data)
-      },
-      handleSelectionChange(val) {
-        this.delApiData = val.map( val => val._id)
-      },
-      handleSizeChange(val) {
-        this.getApiData.pageSize = val ;
-        this.getList();
-      },
-      handleCurrentChange(val) {
-        this.getApiData.pageIndex = val - 1;
-        this.getList();
-      },
-      toAdd(){
-        this.$router.push('/typeDetail')
-      },
-      edit(id){
-        this.$router.push('/typeDetail?id=' + id)
-      },
-      delAlert(id){
-        this.delId = id;
-        this.bAlert = true
-      },
-      closeDelAlert(){
-        this.delId = '';
-        this.bAlert = false
-      },
-      del(){
-        this.$api(`${this.$SERVER.GET_TYPEDEL}?id=${this.delId}`)
-          .then( data => {
-            this.$message.success('删除成功')
-            this.bAlert = false;
-            this.getList();
-          })
-      },
-      dels() {
-        console.log(this.delApiData)
-      }
-    },
-    created() {
-      this.getList();
+      
     },
     mounted() {
 

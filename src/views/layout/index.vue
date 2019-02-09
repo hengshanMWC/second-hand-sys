@@ -31,6 +31,7 @@
         template(slot="title") 商品管理
         el-menu-item(index="type") 分类配置
         el-menu-item(index="commodity") 商品列表
+        el-menu-item(index="order") 订单列表
       el-submenu(index="人员管理")
         template(slot="title") 人员管理
         el-menu-item(index="user") 用户管理

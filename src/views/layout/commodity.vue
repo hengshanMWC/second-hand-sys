@@ -1,5 +1,6 @@
 <style lang="scss" scoped>
   .commodity {
+  
   }
 </style>
 
@@ -7,10 +8,28 @@
   .commodity
     .box_bottom.f_sb
       div
-        el-button(type="primary" @click="toAddUser" plain) 新增
-        el-button(type="primary" @click="getList") 搜索
+        el-button(type="primary" @click="toAdd" plain) 新增
+        el-button(type="primary" @click="search") 搜索
         el-button(type="primary" @click="reset" round) 重置
-        el-button(type="danger" @click="dels" plain) 批量删除
+      el-button(type="danger" @click="dels" plain) 批量删除
+    .box_bottom
+      el-input.box_ss1(v-model="getApiData.c_title" placeholder="商品名称")
+      el-select.wl(@change="getType2" v-model="getApiData.c_state" placeholder="请选择")
+        el-option(label="所有状态" value="")
+        el-option(label="上架" :value="1")
+        el-option(label="下架" :value="2")
+      el-select.box_ss(@change="getType2" v-model="getApiData.c_type" placeholder="请选择")
+        el-option(label="所有分类" value="")
+        el-option(
+          v-for="item in c_type"
+          :key="item._id"
+          :value="item.t_name")
+      el-select.box_ss(v-model="getApiData.c_type2" placeholder="请选择")
+        el-option(label="所有二级分类" value="")
+        el-option(
+          v-for="item in c_type2"
+          :key="item"
+          :value="item")
     el-table.box_bottom(ref="multipleTable" style="width: 100%" height="525" :data="dataList.list" @selection-change="handleSelectionChange")
       el-table-column(type="selection" width="40" fixed)
       el-table-column(prop="c_title" label="商品名称" width="150")
@@ -47,22 +66,25 @@
 
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
+  import mPage from '@/utils/mixin/page'
+  import mType from '@/utils/mixin/view/type'
 
   export default {
     name: "commodity",
+    mixins: [mPage,mType],
     data() {
       return {
-        dataList: {
-          count: 1,
-          list: []
+        getApiData: {
+          c_title: '',
+          c_state: '',
+          c_type: '',
+          c_type2: '',
         },
-        getApiData:{
-          pageSize: 10,
-          pageIndex: 1,
+        api: {
+          list: 'GET_COMMODITYLIST',
+          del: 'GET_COMMODITYDEL',
         },
-        delApiData: [],
-        delId: '',
-        bAlert: false,
+        to: 'commodityDetail',
       }
     },
     computed: {
@@ -71,60 +93,6 @@
     },
     methods: {
       ...mapMutations([]),
-      getList(){
-        this.$api(this.$SERVER.GET_COMMODITYLIST, {
-          params:this.getApiData
-        })
-          .then(data => this.dataList = data.data)
-      },
-      reset(){
-        Object.keys(this.getApiData).forEach( val => {
-          if(val !== 'pageSize' && val!== 'pageIndex') this.getApiData[val] = '';
-        })
-        this.getList();
-      },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
-      },
-      handleSelectionChange(val) {
-        this.delApiData = val.map( val => val._id)
-      },
-      handleSizeChange(val) {
-        this.getApiData.pageSize = val ;
-        this.getList();
-      },
-      handleCurrentChange(val) {
-        this.getApiData.pageIndex = val - 1;
-        this.getList();
-      },
-      toAddUser(){
-        this.$router.push('/commodityDetail')
-      },
-      edit(id){
-        this.$router.push('/commodityDetail?id=' + id)
-      },
-      delAlert(id){
-        this.delId = id;
-        this.bAlert = true
-      },
-      closeDelAlert(){
-        this.delId = '';
-        this.bAlert = false
-      },
-      del(){
-        this.$api(`${this.$SERVER.GET_COMMODITYDEL}?id=${this.delId}`)
-          .then( data => {
-            this.$message.success('删除成功')
-            this.bAlert = false;
-            this.getList();
-          })
-      },
       upState(c_id, c_state){
         this.$api.post(this.$SERVER.POST_COMMODITYUPINFO, {
           c_id,
@@ -135,18 +103,8 @@
             this.getList();
           })
       },
-      dels() {
-        console.log(this.delApiData)
-      }
     },
-    created() {
-      this.getList();
-    },
-    filters: {
-      getStateText(state){
-        return state == 2 ? '上架' : '下架'
-      }
-    }
+    
   }
 </script>
 
