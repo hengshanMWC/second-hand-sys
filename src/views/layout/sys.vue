@@ -27,6 +27,8 @@
       el-table-column(prop="u_name" label="姓名" width="150")
       el-table-column(prop="u_tel" label="手机" width="115")
       el-table-column(prop="u_sex" label="性别" width="55")
+        template(slot-scope="scope")
+          span {{ scope.row.u_sex | fSex}}
       el-table-column(prop="u_address" label="现居地址" width="250")
       el-table-column(prop="up_date" label="更新日期" width="170")
       el-table-column(prop="create_date" label="创建日期" width="170")

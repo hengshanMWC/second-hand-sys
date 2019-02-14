@@ -14,6 +14,8 @@
       el-table-column(type="selection" width="40" fixed)
       el-table-column(prop="t_name" label="分类名称" width="180")
       el-table-column(prop="t_types" label="二级个数" width="100")
+        template(slot-scope="scope")
+          span(:title="scope.row.t_types") {{scope.row.t_types.length}}
       el-table-column(prop="t_weight" label="权重" width="60")
       el-table-column(prop="up_date" label="更新日期")
       el-table-column(prop="create_date" label="创建日期" )

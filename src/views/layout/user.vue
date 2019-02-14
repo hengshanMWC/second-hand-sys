@@ -17,6 +17,8 @@
       el-input.box_ss(v-model="getApiData.u_name" placeholder="姓名")
       el-input.box_ss(v-model="getApiData.u_tel" placeholder="手机")
       el-input.box_ss(v-model="getApiData.u_address" placeholder="现居地址")
+    .box_bottom
+      school.box_ss1.inB(@list="getSchoolList" :school="getApiData.u_school" :schools="schoolList" @change="setSchool")
       el-select.box_ss(v-model="getApiData.u_static" clearable placeholder="是否认证")
         el-option(label="是否认证" value="")
         el-option(label="已认证" :value="true")
@@ -29,9 +31,14 @@
       el-table-column(type="selection" width="40" fixed)
       el-table-column(prop="u_account" label="账号" width="150")
       el-table-column(prop="u_name" label="姓名" width="150")
+      el-table-column(prop="u_school" label="学校" width="150")
       el-table-column(prop="u_tel" label="手机" width="115")
       el-table-column(prop="u_sex" label="性别" width="55")
+        template(slot-scope="scope")
+          span {{ scope.row.u_sex | fSex}}
       el-table-column(prop="u_static" label="是否认证" width="80")
+        template(slot-scope="scope")
+          span {{ scope.row.u_static ? '已认证' : '未认证'}}
       el-table-column(prop="u_address" label="现居地址" width="250")
       el-table-column(prop="up_date" label="更新日期" width="170")
       el-table-column(prop="create_date" label="创建日期" width="170")
@@ -61,13 +68,14 @@
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
   import mPage from '@/utils/mixin/page'
+  import school from '@/components/school';
 
   export default {
     name: "user",
     mixins: [mPage],
-
     data() {
       return {
+        schoolList: [],
         getApiData:{
           u_account: '',
           u_name: '',
@@ -75,6 +83,7 @@
           u_address: '',
           u_static: '',
           u_sex: '',
+          u_school: '',
         },
         api: {
           list: 'GET_USERLIST',
@@ -89,9 +98,15 @@
     },
     methods: {
       ...mapMutations([]),
+      getSchoolList(data){
+        this.schoolList = data;
+      },
+      setSchool(val){
+        this.getApiData.u_school = val;
+      }
     },
-    mounted() {
-
+    components:{
+      school
     }
   }
 </script>

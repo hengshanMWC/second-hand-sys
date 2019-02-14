@@ -162,6 +162,7 @@
         this.$api(this.$SERVER.GET_USERINFO,{
           params: {id : this.id}
         }).then( data => {
+          console.log(data)
           let info = data.data;
           info.u_password = '';
           this.apiData = info

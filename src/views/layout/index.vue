@@ -36,8 +36,11 @@
         template(slot="title") 人员管理
         el-menu-item(index="user") 用户管理
         el-menu-item(index="sys") 管理员列表
+      el-submenu(index="消息中心")
+        template(slot="title") 消息中心
+        el-menu-item(index="follow") 问题反馈
+        el-menu-item(index="prove") 认证管理
       el-menu-item(index="banner") banner图
-      el-menu-item(index="follow") 问题反馈
       el-dropdown.avatar_box(@command="OperationUser")
         img.avatar(v-if="userInfo.u_avatar" :src="$SERVER.FILEURL + userInfo.u_avatar")
         el-dropdown-menu(slot="dropdown")

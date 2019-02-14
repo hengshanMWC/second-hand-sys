@@ -178,11 +178,51 @@ const router =  new Router({
           name: 'follow',
           meta: {
             position: [
+              '消息中心',
               '问题反馈',
             ],
             title: '问题反馈',
           },
           component: () => import('@/views/layout/follow')
+        },
+        //问题反馈
+        {
+          path: 'followDetail',
+          name: 'followDetail',
+          meta: {
+            position: [
+              '消息中心',
+              '反馈编辑',
+            ],
+            title: '反馈编辑',
+          },
+          component: () => import('@/views/layout/follow-detail')
+        },
+        //认证管理
+        {
+          path: 'prove',
+          name: 'prove',
+          meta: {
+            position: [
+              '消息中心',
+              '认证管理',
+            ],
+            title: '认证管理',
+          },
+          component: () => import('@/views/layout/prove')
+        },
+        //认证管理
+        {
+          path: 'proveDetail',
+          name: 'proveDetail',
+          meta: {
+            position: [
+              '消息中心',
+              '认证详情',
+            ],
+            title: '认证详情',
+          },
+          component: () => import('@/views/layout/prove-detail')
         },
       ]
     },
@@ -200,9 +240,12 @@ router.beforeEach((to, from, next) => {
   if(to.name !== 'login' && Object.keys(store.state.userInfo).length === 0) {
     api(SERVER.GET_ISLOGIN)
       .then( data => {
+        console.log(data)
         return data.state ? api(SERVER.GET_CURRENTUSERINFO) : next({name: 'login'})
       })
       .then( data => {
+        console.log(data)
+
         store.commit('setUserInfo',data.data)
         next()
       })

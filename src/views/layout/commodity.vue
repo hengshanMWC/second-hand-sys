@@ -14,6 +14,8 @@
       el-button(type="danger" @click="dels" plain) 批量删除
     .box_bottom
       el-input.box_ss1(v-model="getApiData.c_title" placeholder="商品名称")
+      el-input.box_ss(v-model="getApiData.u_name" placeholder="售方")
+      el-input.box_ss(v-model="getApiData.u_school" placeholder="学校名称")
       el-select.wl(@change="getType2" v-model="getApiData.c_state" placeholder="请选择")
         el-option(label="所有状态" value="")
         el-option(label="上架" :value="1")
@@ -33,14 +35,18 @@
     el-table.box_bottom(ref="multipleTable" style="width: 100%" height="525" :data="dataList.list" @selection-change="handleSelectionChange")
       el-table-column(type="selection" width="40" fixed)
       el-table-column(prop="c_title" label="商品名称" width="150")
+      el-table-column(prop="u_name" label="售方" width="150")
+      el-table-column(prop="u_school" label="学校" width="150")
       el-table-column(prop="c_type" label="分类" width="150")
       el-table-column(prop="c_type2" label="子分类" width="150")
       el-table-column(prop="c_price" label="价格" width="160")
-      el-table-column(prop="c_num" label="数量" width="50")
-      el-table-column(prop="c_state" label="状态" width="50")
+        template(slot-scope="scope")
+          span {{scope.row.c_price | branch}}
+      el-table-column(prop="c_num" label="数量" width="75")
+      el-table-column(prop="c_sales" label="销量" width="80")
       el-table-column(prop="up_date" label="更新日期" width="170")
       el-table-column(prop="create_date" label="创建日期" width="170")
-      el-table-column(label="操作" width="155" fixed="right")
+      el-table-column(label="操作" width="210" fixed="right")
         template(slot-scope="scope")
           el-button(@click="upState(scope.row._id, scope.row.c_state)" type="primary" size="small") {{scope.row.c_state | getStateText}}
           el-button(@click="edit(scope.row._id)" type="primary" size="small") 编辑
@@ -76,6 +82,8 @@
       return {
         getApiData: {
           c_title: '',
+          u_name: '',
+          u_school: '',
           c_state: '',
           c_type: '',
           c_type2: '',

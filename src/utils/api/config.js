@@ -1,8 +1,8 @@
 export default {
-  // URL: 'http://mwc.ac.cn:3000/',
-  // FILEURL: 'http://mwc.ac.cn:3000/second-hand',
-  URL: 'http://localhost:3000/',
-  FILEURL: 'http://localhost:3000/second-hand',
+  URL: 'http://mwc.ac.cn:81/',
+  FILEURL: 'http://mwc.ac.cn:81/second-hand',
+  // URL: 'http://localhost:81/',
+  // FILEURL: 'http://localhost:81/second-hand',
   // URL: '139.199.88.199:4444',
   PATH: 'second-hand/api/',
   GET_PROVINCELIST: 'common/provinceList',//省份
@@ -47,4 +47,11 @@ export default {
   GET_BANNERINFO: 'banner/info',//banner详情
   POST_BANNERUPINFO: 'banner/upInfo',//banner更新
   GET_BANNERDEL: 'banner/del',//banner删除
+  //认证
+  GET_PROVELIST: 'prove/list',//认证列表
+  POST_PROVEADD: 'prove/add',//添加认证
+  GET_PROVEINFO: 'prove/info',//认证详情
+  POST_PROVEUPINFO: 'prove/upInfo',//认证更新
+  GET_PROVEDEL: 'prove/del',//认证删除
+  POST_PROVEAUDITING: 'prove/auditing',//审核认证
 }
