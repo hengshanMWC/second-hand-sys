@@ -18,12 +18,11 @@
     .box_bottom
       el-select.w(v-model="getApiData.p_state" clearable placeholder="审核状态")
         el-option(label="审核状态" value="")
-        el-option(label="待审核" :value="1")
-        el-option(label="审核通过" :value="2")
-        el-option(label="审核不通过" :value="3")
+        el-option(label="待审核" :value="0")
+        el-option(label="审核通过" :value="1")
+        el-option(label="审核不通过" :value="2")
     el-table.box_bottom(ref="multipleTable" style="width: 100%" height="525" :data="dataList.list" @selection-change="handleSelectionChange")
       el-table-column(type="selection" width="40" fixed)
-      el-table-column(prop="u_name" label="审请人" width="180")
       el-table-column(prop="p_name" label="审请姓名" width="180")
       el-table-column(prop="p_prove" label="审请证件" width="200")
       el-table-column(prop="p_school" label="审请学校" width="180")
@@ -54,6 +53,16 @@
       span.dialog-footer(slot="footer")
         el-button(@click="closeDelAlert") 取消
         el-button(@click="del" type="primary")  确认
+    el-dialog(
+    title="认证审核"
+    @close="closeProve"
+    :visible.sync="bProve"
+    width="80%")
+      quill-editor(
+      v-model="apiData.p_content")
+      span.dialog-footer(slot="footer")
+        el-button(@click="auditing(1)" type="primary") 通过
+        el-button(@click="auditing(2)" type="warning") 不通过
 </template>
 
 <script>
@@ -71,7 +80,13 @@
         to: 'proveDetail',
         getApiData: {
           p_state: '',
-        }
+        },
+        bProve: false,
+        apiData: {
+          p_content: '',
+          id: '',
+          p_state: '',
+        },
       }
     },
     computed: {
@@ -80,22 +95,21 @@
     },
     methods: {
       ...mapMutations([]),
-      auditingAlert(id, p_state){
-        this.$prompt('内容反馈', '审核', {
-          confirmButtonText: '通过',
-          cancelButtonText: '不通过',
-        }).then(({ value }) => {
-          this.auditing(value,id, 2)
-        }).catch(({ value }) => {
-          this.auditing(value,id, 3)
-        });
+      closeProve(){
+        this.apiData.p_content = '';
+        this.apiData.id = '';
+        this.apiData.p_state = ''
       },
-      auditing(value, id, p_state){
-        this.$api.post(this.$SERVER.POST_PROVEAUDITING, {
-          id,
-          p_state,
-        })
+      auditingAlert(id){
+        this.bProve = true;
+        this.apiData.id = id;
+      },
+      auditing(p_state){
+        this.apiData.p_state = p_state;
+        this.$api.post(this.$SERVER.POST_PROVEAUDITING, this.apiData)
           .then( res => {
+            this.bProve = false
+            this.closeProve();
             res.state ? this.$message.success('操作成功') :  this.$message.error(res.mes)
             this.getList();
           })

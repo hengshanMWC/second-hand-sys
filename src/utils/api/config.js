@@ -54,4 +54,10 @@ export default {
   POST_PROVEUPINFO: 'prove/upInfo',//认证更新
   GET_PROVEDEL: 'prove/del',//认证删除
   POST_PROVEAUDITING: 'prove/auditing',//审核认证
+  //消息
+  GET_NEWSLIST: 'news/list',//消息列表
+  POST_NEWSADD: 'news/add',//添加消息
+  GET_NEWSINFO: 'news/info',//消息详情
+  POST_NEWSUPINFO: 'news/upInfo',//消息更新
+  GET_NEWSDEL: 'news/del',//消息删除
 }

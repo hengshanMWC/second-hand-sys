@@ -37,7 +37,8 @@
         el-menu-item(index="user") 用户管理
         el-menu-item(index="sys") 管理员列表
       el-submenu(index="消息中心")
-        template(slot="title") 消息中心
+        template(slot="title") 信息管理
+        el-menu-item(index="news") 消息中心
         el-menu-item(index="follow") 问题反馈
         el-menu-item(index="prove") 认证管理
       el-menu-item(index="banner") banner图

@@ -172,26 +172,53 @@ const router =  new Router({
           },
           component: () => import('@/views/layout/sys-detail'),
         },
+        //信息中心
+        {
+          path: 'news',
+          name: 'news',
+          meta: {
+            position: [
+              '信息管理',
+              '消息中心',
+            ],
+            title: '消息中心',
+          },
+          component: () => import('@/views/layout/news')
+        },
+        //消息编辑
+        {
+          path: 'newsDetail',
+          name: 'newsDetail',
+          meta: {
+            position: [
+              '信息管理',
+              '消息中心',
+              '消息编辑',
+            ],
+            title: '消息编辑',
+          },
+          component: () => import('@/views/layout/news-detail')
+        },
         //问题反馈
         {
           path: 'follow',
           name: 'follow',
           meta: {
             position: [
-              '消息中心',
+              '信息管理',
               '问题反馈',
             ],
             title: '问题反馈',
           },
           component: () => import('@/views/layout/follow')
         },
-        //问题反馈
+        //反馈编辑
         {
           path: 'followDetail',
           name: 'followDetail',
           meta: {
             position: [
-              '消息中心',
+              '信息管理',
               '反馈编辑',
             ],
             title: '反馈编辑',
@@ -204,7 +231,7 @@ const router =  new Router({
           name: 'prove',
           meta: {
             position: [
-              '消息中心',
+              '信息管理',
               '认证管理',
             ],
             title: '认证管理',

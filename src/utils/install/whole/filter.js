@@ -2,7 +2,7 @@ export default {
   fSex(sex, def = '未知'){
     let arr = ['女', '男']
     try{
-      return arr[sex]
+      return arr[sex] ? arr[sex] : def
     } catch {
       return def
     }
