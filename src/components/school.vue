@@ -18,7 +18,7 @@
     :loading="schoolLoading"
     @change="setVal")
       el-option(
-      v-for="item in schools"
+      v-for="item in schoolList"
       :key="item.id"
       :label="item.name"
       :value="item.name")
@@ -29,11 +29,12 @@
 
   export default {
     name: "school",
-    props: ['school','schools'],
+    props: ['school'],
     data() {
       return {
         val: '',
         schoolLoading: false,
+        schoolList: [],
       }
     },
     computed: {
@@ -46,9 +47,9 @@
         if(e !== '') {
           this.schoolLoading = true
           this.$api(`${this.$SERVER.GET_SCHOOILIST}?name=${e}`)
-            .then( data => {
+            .then( res => {
               this.schoolLoading = false
-              this.$emit('list', data.data)
+              this.schoolList = res.data
             })
         }
       },

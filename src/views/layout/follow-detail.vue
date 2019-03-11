@@ -10,11 +10,12 @@
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
   import mDetail from '@/utils/mixin/detail'
-  import mPage from '@/utils/mixin/page'
+  import mPageOn from '@/utils/mixin/page-no-create'
+  import mDetailOn from '@/utils/mixin/detail-no-watch'
 
   export default {
     name: "bannerDetail",
-    mixins: [mPage,mDetail],
+    mixins: [mPageOn, mDetailOn],
     data() {
       return {
         api: {
@@ -33,6 +34,7 @@
           pageSize: 5,
           pageIndex: 1,
           n_type: 6,
+          l_id: '',
         },
         rules: {
         
@@ -55,6 +57,7 @@
           this.id = to.query.id;
           if(this.id){
             this.getApiData.pageIndex = 1;
+            this.getApiData.l_id = this.id
             this.getInfo()
             this.getList()
           }

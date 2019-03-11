@@ -53,7 +53,7 @@
         el-form-item(label="年龄" prop="u_age")
           el-input(v-model="apiData.u_age")
         el-form-item(label="学校" prop="u_school")
-          school(@list="getSchoolList" :school="apiData.u_school" :schools="schoolList" @change="setSchool")
+          school(:school="apiData.u_school" @change="setSchool")
       el-col(:span="12")
         el-form-item(label="头像" prop="u_avatar")
           el-upload.avatar-uploader(
@@ -123,7 +123,6 @@
           u_city: '',
           u_static: false,
         },
-        schoolList: [],
         rules: {
           u_account: [
             { required: true, message: '请输入账号', trigger: 'blur' },
@@ -185,9 +184,6 @@
       thenSubmit(str){
         this.$message.success(str + '成功');
         this.$router.push('/sys')
-      },
-      getSchoolList(data){
-        this.schoolList = data;
       },
       setSchool(val){
         this.apiData.u_school = val;

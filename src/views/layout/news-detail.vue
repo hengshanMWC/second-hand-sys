@@ -11,7 +11,7 @@
           el-radio(v-model="apiData.n_type" :label="0") 官方公告
           el-radio(v-model="apiData.n_type" :label="1") 个人信息
         el-form-item.inB(label="指定人" prop="u_id" v-show="apiData.n_type === 1")
-          el-input(v-model="apiData.n_account")
+          user-list(@change="setUser" :user="apiData.n_account")
       template(v-else)
         .box_bottom
           span 消息类型：
@@ -24,12 +24,15 @@
 <script>
   import {mapState, mapGetters, mapMutations} from 'vuex'
   import { newJson } from '@/utils/js/index'
+  import userList from '@/components/user-list'
   import mDetail from '@/utils/mixin/detail'
   export default {
     name: "newsDetail",
     mixins: [mDetail],
     data() {
       return {
+        userList: [],
+        userLoading: false,
         apiData: {
           n_type: 0,
           n_content: '',
@@ -68,9 +71,15 @@
     },
     methods: {
       ...mapMutations([]),
+      setUser(val){
+        this.apiData.n_account = val;
+      },
     },
     created(){
     
+    },
+    components: {
+      userList
     }
   }
 </script>
