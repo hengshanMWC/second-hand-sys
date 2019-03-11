@@ -89,6 +89,19 @@ const router =  new Router({
           },
           component: () => import('@/views/layout/order')
         },
+        {
+          path: 'orderDetail',
+          name: 'orderDetail',
+          meta: {
+            position: [
+              '商品管理',
+              '订单列表',
+              '订单详情',
+            ],
+            title: '订单详情',
+          },
+          component: () => import('@/views/layout/order-detail')
+        },
         //banner
         {
           path: 'banner',
@@ -267,11 +280,9 @@ router.beforeEach((to, from, next) => {
   if(to.name !== 'login' && Object.keys(store.state.userInfo).length === 0) {
     api(SERVER.GET_ISLOGIN)
       .then( data => {
-        console.log(data)
         return data.state ? api(SERVER.GET_CURRENTUSERINFO) : next({name: 'login'})
       })
       .then( data => {
-        console.log(data)
 
         store.commit('setUserInfo',data.data)
         next()

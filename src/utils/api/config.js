@@ -54,6 +54,13 @@ export default {
   POST_PROVEUPINFO: 'prove/upInfo',//认证更新
   GET_PROVEDEL: 'prove/del',//认证删除
   POST_PROVEAUDITING: 'prove/auditing',//审核认证
+  //反馈
+  GET_FEEDBACKLIST: 'feedback/list',//反馈列表
+  POST_FEEDBACKADD: 'feedback/add',//添加反馈
+  GET_FEEDBACKINFO: 'feedback/info',//反馈详情
+  POST_FEEDBACKUPINFO: 'feedback/upInfo',//反馈更新
+  GET_FEEDBACKDEL: 'feedback/del',//反馈删除
+  POST_FEEDBACKREPLY: 'feedback/reply',//问题回复
   //消息
   GET_NEWSLIST: 'news/list',//消息列表
   POST_NEWSADD: 'news/add',//添加消息

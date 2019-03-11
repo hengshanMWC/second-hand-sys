@@ -40,7 +40,7 @@
     background
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
-    :current-page="getApiData.pageIndex + 1"
+    :current-page="getApiData.pageIndex"
     :page-sizes="[10, 20, 50, 100]"
     :page-size="getApiData.pageSize"
     layout="total, sizes, prev, pager, next, jumper"

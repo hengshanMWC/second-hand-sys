@@ -56,8 +56,10 @@ export default {
       this.delId = '';
       this.bAlert = false
     },
-    del(){
-      this.$api(`${this.$SERVER[this.api.del]}?id=${this.delId}`)
+    del(e){
+      let key = typeof e === "object" ? 'delId' : e
+      let id = this[key];
+      this.$api(`${this.$SERVER[this.api.del]}?id=${id}`)
         .then( data => {
           this.$message.success('删除成功')
           this.bAlert = false;
@@ -65,6 +67,12 @@ export default {
         })
     },
     dels() {
+      this.$confirm(`确定要批量删除${this.delApiData.length}条信息？`, '警告！', {
+        confirmButtonText: '批量删除',
+        cancelButtonText: '取消删除',
+        type: 'error'
+      }).then(() => this.del('delApiData'))
+        .catch( () => {})
       console.log(this.delApiData)
     },
     toAdd(){

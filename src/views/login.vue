@@ -101,9 +101,15 @@
       }
     },
     created() {
+      console.log(this.a)
     },
     mounted() {
       this.startTitle('校园二手交易后台')
+    },
+    computed: {
+      a(){
+        return this.title
+      }
     }
   }
 </script>

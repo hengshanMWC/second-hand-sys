@@ -1,9 +1,6 @@
 <style lang="scss" scoped>
   .prove {
-    .avatar {
-      width: 135px;
-      height: 35px;
-    }
+
   }
 </style>
 
@@ -33,14 +30,14 @@
       el-table-column(prop="create_date" label="创建日期" width="180")
       el-table-column(label="操作" fixed="right" width="210")
         template(slot-scope="scope")
-          el-button(@click="auditingAlert(scope.row._id)" type="primary" size="small") 审核
+          el-button(@click="auditingAlert(scope.row._id)" size="small") 审核
           el-button(@click="edit(scope.row._id)" type="primary" size="small") 编辑
           el-button(@click="delAlert(scope.row._id)" type="danger" size="small") 删除
     el-pagination.box_bottom(
     background
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"
-    :current-page="getApiData.pageIndex + 1"
+    :current-page="getApiData.pageIndex"
     :page-sizes="[10, 20, 50, 100]"
     :page-size="getApiData.pageSize"
     layout="total, sizes, prev, pager, next, jumper"
