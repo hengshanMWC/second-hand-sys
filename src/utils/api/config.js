@@ -1,8 +1,8 @@
 export default {
-  URL: 'http://mwc.ac.cn:81/',
-  FILEURL: 'http://mwc.ac.cn:81/second-hand',
-  // URL: 'http://localhost:81/',
-  // FILEURL: 'http://localhost:81/second-hand',
+  // URL: 'http://mwc.ac.cn:81/',
+  // FILEURL: 'http://mwc.ac.cn:81/second-hand',
+  URL: 'http://localhost:81/',
+  FILEURL: 'http://localhost:81/second-hand',
   // URL: '139.199.88.199:4444',
   PATH: 'second-hand/api/',
   GET_PROVINCELIST: 'common/provinceList',//省份
