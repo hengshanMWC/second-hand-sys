@@ -8,7 +8,7 @@
   .prove
     .box_bottom.f_sb
       div
-        el-button(type="primary" @click="toAdd" plain) 新增
+        <!--el-button(type="primary" @click="toAdd" plain) 新增-->
         el-button(type="primary" @click="search") 搜索
         el-button(type="primary" @click="reset" round) 重置
       el-button(type="danger" @click="dels" plain) 批量删除

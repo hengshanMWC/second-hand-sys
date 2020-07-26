@@ -44,6 +44,9 @@ export default {
       })
       this.getList();
     },
+    editShow(){
+
+    },
     //删除
     delAlert(id){
       this.delId = id;

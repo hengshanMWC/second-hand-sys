@@ -7,7 +7,7 @@
   .follow
     .box_bottom.f_sb
       div
-        el-button(type="primary" @click="toAdd" plain) 新增
+        <!--el-button(type="primary" @click="toAdd" plain) 新增-->
         el-button(type="primary" @click="search") 搜索
         el-button(type="primary" @click="reset" round) 重置
       el-button(type="danger" @click="dels" plain) 批量删除
@@ -56,7 +56,7 @@
       quill-editor(
       v-model="apiData.f_content")
       span.dialog-footer(slot="footer")
-        el-button(@click="closeDelAlert") 取消
+        el-button(@click="closeAlert") 取消
         el-button(@click="submitAlert" type="primary")  确认
 </template>
 
@@ -92,6 +92,7 @@
       closeAlert(){
         this.apiData.f_content = '';
         this.apiData.id = '';
+        this.bFollow = false;
       },
       upAlert(id){
         this.bFollow = true;
@@ -100,7 +101,6 @@
       submitAlert(f_type){
         this.$api.post(this.$SERVER.POST_FEEDBACKREPLY, this.apiData)
           .then( res => {
-            this.bFollow = false
             this.closeAlert();
             res.state ? this.$message.success('操作成功') :  this.$message.error(res.mes)
             this.getList();
